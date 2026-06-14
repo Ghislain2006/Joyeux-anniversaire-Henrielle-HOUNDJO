@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HBD Henrielle</title>
+<link rel="icon" href="Henrielleicon.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body{
+    width:100%;
+    height:100%;
+    overflow-x:hidden;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    overflow:hidden;
+    height:100vh;
+    background: url(Henrielle.jpg);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+.container{
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+h1{
+    position: fixed;
+    text-align: center;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    margin-bottom:20px;
+    text-shadow: 0 0 15px rgba(255,255,255,0.6);
+}
+
+.subtitle{
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    justify-content: center;
+    align-items: center;
+    font-size:1.2rem;
+    margin-bottom:40px;
+    text-shadow: 0 0 15px rgba(255,255,255,0.6);
+    opacity:0.9;
+}
+
+.envelope{
+    width:250px;
+    height:170px;
+    background: #ff6b81;
+    margin:auto;
+    position:relative;
+    justify-content: center;
+    align-items: center;
+    cursor:pointer;
+    transition: 0.005s;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+.envelope:hover{
+    transform:scale(1.05);
+}
+
+.envelope::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width: 0;
+    height: 0;
+    border-left: 125px solid transparent;
+    border-right: 125px solid transparent;
+    border-top: 90px solid #ff8fa3;
+    transform-origin: top;
+    transition: 1s;
+    z-index: 3;
+}
+
+.letter{
+    position:absolute;
+    top:10px;
+    left:10px;
+    width:230px;
+    height:150px;
+    background:white;
+    border-radius:10px;
+    padding:20px;
+    color:#333;
+    transition:1s;
+    overflow:auto;
+}
+
+.letter p{
+    font-size:0.95rem;
+    line-height:1.6;
+}
+
+.envelope.open::before{
+    transform:rotateX(180deg);
+}
+
+.envelope.open .letter{
+    transform:translateY(-120px);
+}
+
+.hidden-message{
+    display: none;
+    margin-top: 40px;
+    animation: fadeIn 2s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 1s;
+    width: 100%;
+    top: 25%;
+    text-align: center;
+    align-items: center;
+}
+
+.hidden-message h2{
+    font-size:2rem;
+    margin-bottom:20px;
+}
+
+.hidden-message p{
+    max-width:700px;
+    margin:auto;
+    font-size:1.1rem;
+    line-height:2;
+}
+
+.hearts{
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    overflow:hidden;
+    z-index:1;
+}
+
+.heart{
+    position:absolute;
+    bottom:-20px;
+    color: #ffbfc6;
+    animation:float 8s linear infinite;
+    font-size:20px;
+}
+
+@keyframes float{
+    0%{
+        transform:translateY(0) rotate(0deg);
+        opacity:0;
+    }
+    20%{
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-120vh) rotate(360deg);
+        opacity:0;
+    }
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.intro-screen{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    backdrop-filter:blur(5px);
+    background: linear-gradient(135deg,#ff5f6d,#ffc371,#ff8fab,#0033ff);
+    z-index:10;
+    animation: fadeIn 2s ease;
+}
+
+.intro-title{
+    font-size: 18px;
+    margin-top: 10px;
+    text-shadow:0 0 20px rgba(255,255,255,0.7);
+}
+
+.intro-text{
+    font-size:1rem;
+    line-height:2;
+    margin-bottom:35px;
+    padding: 20px 20px;
+    gap: 0;
+}
+
+.start-btn{
+    padding:15px 35px;
+    border:none;
+    border-radius:40px;
+    background: #ffffff;
+    color: #ff5f6d;
+    font-size: 1.1rem;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.05s;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation:pulse 1.5s infinite;
+}
+
+.start-btn:hover{
+    transform:scale(1.15);
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.1);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+.heart-lock{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:70px;
+    height:70px;
+    background: none;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size: 80px;
+    color: red;
+    cursor:pointer;
+    z-index:5;
+    animation: heartBeat 1.2s infinite;
+    transition: 0.004s;
+    text-shadow: 0 0 5px red;
+    filter: drop-shadow(0 0 5px red);
+}
+
+.heart-lock::after{
+    z-index: 0;
+}
+
+.heart-lock:hover{
+    transform:translate(-50%,-50%) scale(1.1);
+}
+
+@keyframes heartBeat{
+
+    0%{
+        transform:translate(-50%,-50%) scale(1);
+    }
+
+    25%{
+        transform:translate(-50%,-50%) scale(1.15);
+    }
+
+    40%{
+        transform:translate(-50%,-50%) scale(1);
+    }
+
+    60%{
+        transform:translate(-50%,-50%) scale(1.15);
+    }
+
+    100%{
+        transform:translate(-50%,-50%) scale(1);
+    }
+}
+
+
+.phrase1,
+.phrase2,
+.phrase3,
+.phrase4,
+.phrase5,
+.phrase6,
+.phrase7{
+    display:flex;
+    align-items: baseline;
+    gap: 0;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.intro-titlename{
+    font-size: 30px;
+    font-family: 'Time New Roman', serif;
+    font-style: italic;
+    margin-bottom:20px;
+    color: #000000;
+    text-shadow:0 0 20px rgba(255,255,255,0.7);
+}
+
+.letterary{
+    font-size: 2rem;
+    font-family: 'Time New Roman', serif;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+    color: #ff1744;
+}
+
+#typing::after{
+    content:'|';
+    animation:blink 0.7s infinite;
+}
+
+@keyframes blink{
+    50%{
+        opacity:0;
+    }
+}
+
+#countdown{
+    font-size:5rem;
+    font-weight:bold;
+    color:#ff1744;
+    text-shadow:0 0 20px rgba(255,23,68,0.7);
+    margin-bottom:20px;
+    animation:pulse 1s infinite;
+}
+
+#typing {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: #ff8fa3;
+    text-shadow: 0 0 20px rgb(0, 0, 255);
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    min-height: 200px;
+    overflow-y: auto;
+}
+
+@media (max-width: 1024px){
+
+    h1{
+        font-size: 2rem;
+    }
+
+    .letter{
+        width:200px;
+        height:130px;
+    }
+
+    .hidden-message h2{
+        font-size:1.6rem;
+    }
+
+    #typing{
+        font-size:1.1rem;
+        width:90%;
+    }
+
+    .intro-titlename{
+        font-size:24px;
+    }
+
+    .intro-text{
+        font-size:1rem;
+        padding:10px;
+    }
+}
+
+@media (max-width: 768px){
+
+    h1{
+        font-size: 0.5rem;
+        padding:0 10px;
+    }
+
+    .subtitle{
+        font-size: 0.5rem;
+        padding:0 15px;
+    }
+
+    .envelope{
+        width: 180px;
+        height: 130px;
+    }
+    
+    .envelope::before {
+        border-left: 75px solid transparent;
+        border-right: 75px solid transparent;
+        border-top: 70px solid #ff8fa3;
+    }
+
+    .letter{
+        width:160px;
+        height:110px;
+        font-size: 0.8rem;
+    }
+
+    .heart-lock{
+        font-size:60px;
+    }
+
+    #countdown{
+        font-size:3rem;
+    }
+
+    #typing{
+        font-size: 0.8rem;
+        width: 95%;
+        min-height: 180px;
+    }
+
+    .hidden-message{
+        width:95%;
+        padding:10px;
+    }
+
+    .intro-screen{
+        width: 100%;
+        padding:10px;
+    }
+
+    .intro-titlename{
+        font-size: 20px;
+    }
+
+    .intro-text{
+        font-size: 8px;
+        line-height: 1;
+    }
+
+    .start-btn{
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+
+    .intro-text{
+        width: 90%;
+        max-width: 100%;
+        font-size: 0.5rem;
+        line-height: 1;
+    }
+
+    .phrase1,
+    .phrase2,
+    .phrase3,
+    .phrase4,
+    .phrase5,
+    .phrase6,
+    .phrase7{
+        font-size: 0.7rem;
+        margin-bottom: 5px;
+        margin: 0;
+        justify-content: flex-start;
+        text-align: left;
+        gap: 0;
+    }
+
+    .letterary{
+        font-size: 1.5rem;
+        gap: 0;
+        margin: 0;
+        padding: 0;
+        font-weight: bold;
+    }
+
+    .intro-titlename{
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 400px){
+
+    h1{
+        font-size:1.5rem;
+    }
+
+    .envelope{
+        width:150px;
+        height:110px;
+    }
+
+    #countdown{
+        font-size:2.5rem;
+    }
+
+    #typing{
+        font-size:0.9rem;
+    }
+
+    .intro-titlename{
+        font-size:18px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="hearts"></div>
+
+<div class="intro-screen" id="introScreen">
+    <p class="intro-text">
+        <b>
+            <h3 class="intro-titlename">HENRIELLE : Sourire du jour</h3>
+            <p class="phrase1"><span class="letterary">H</span>onore-toi chaque matin avec le sourire, car ta présence rend le monde plus doux.</p>
+            <p class="phrase1"><span class="letterary">E</span>mbrasse les défis devant toi, car ils te rapprochent de tes rêves.</p>
+            <p class="phrase1"><span class="letterary">N</span>ourris tes passions, car c’est ainsi que ton âme s’épanouit véritablement.</p>
+            <p class="phrase2"><span class="letterary">R</span>este fidèle à tes valeurs, car elles sont la boussole qui guide ta vie.</p>
+            <p class="phrase3"><span class="letterary">I</span>magine tout le bonheur qui t’attend, car tu mérites ce qu’il y a de plus beau.</p>
+            <p class="phrase4"><span class="letterary">E</span>coute ton cœur, il connaît toujours ce qu'il te faut pour être heureuse.</p>
+            <p class="phrase5"><span class="letterary">L</span>umineuse comme un rayon de soleil, tu répands la bonne humeur partout où tu passes.</p>
+            <p class="phrase6"><span class="letterary">L</span>aisse ton rire résonner, il est la plus belle mélodie du jour à entendre.</p>
+            <p class="phrase7"><span class="letterary">E</span>t surtout, n’oublie jamais : tu es unique, précieuse et incroyablement spéciale.</p>
+        </b>
+    </p>
+    <h3 class="intro-title">Une surprise t'attend... </h3>
+    <br>
+    <button class="start-btn" id="startBtn">
+        🎁
+    </button>
+</div>
+
+<div class="container" id="mainContent" style="display:none;">
+    <h1>Joyeux Anniversaire Henrielle</h1>
+    <p class="subtitle">Tu as reçu une lettre très spéciale...</p>
+
+    <div class="envelope" id="envelope">
+        
+        <div class="heart-lock">❤</div>
+    </div>
+
+    <div class="hidden-message" id="message">
+        <h2 style="color: black; font-family: 'Time New Roman', seif;">À toi Henrielle</h2>
+
+        <div id="countdown">3</div>
+
+        <p id="typing"></p>
+
+        <h2 style="color: #2610e9; font-family: 'Time New Roman', seif; font-style: italic;">HOUNDJO AKOUAVI HENRIELLE</h2>
+
+    </div>
+</div>
+
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const startBtn = document.getElementById('startBtn');
+const introScreen = document.getElementById('introScreen');
+const mainContent = document.getElementById('mainContent');
+const envelope = document.getElementById('envelope');
+const message = document.getElementById('message');
+const typing = document.getElementById('typing');
+const music = document.getElementById('music');
+
+const text = `
+Aujourd'hui n'est pas un jour ordinaire.
+
+C'est le jour où une personne incroyable est née.
+
+Henrielle, tu es une lumière dans la vie des personnes qui ont la chance de te connaître.
+
+Ton sourire, ta gentillesse, ton cœur et ta présence rendent le monde plus beau.
+
+Je voulais simplement te rappeler à quel point tu es précieuse. 
+
+Que cette nouvelle année de ta vie soit remplie de bonheur, de paix, d'amour et de réussite.
+
+Et surtout,
+
+n'oublie jamais que tu comptes énormément.
+
+Joyeux anniversaire Reine
+`;
+
+let index = 0;
+
+function typeText(){
+
+    if(index === 0){
+        music.play();
+    }
+
+    if(index < text.length){
+        typing.innerHTML += text.charAt(index);
+        index++;
+        setTimeout(typeText,150);
+    }
+}
+
+document.querySelector('.heart-lock').addEventListener('click',()=>{
+    envelope.classList.add('open');
+
+    const heart = document.querySelector('.heart-lock');
+
+    setTimeout(()=>{
+        envelope.style.opacity = '0';
+        envelope.style.transform = 'scale(0.1)';
+        heart.style.opacity = '0';
+    },500);    
+
+    setTimeout(() => {
+        message.style.display = 'block';
+        message.style.opacity = '1';
+        message.style.transform = 'translateY(0)';
+
+        const countdown = document.getElementById('countdown');
+        let count = 3;
+
+        countdown.innerHTML = count;
+
+        const timer = setInterval(() => {
+            count--;
+
+            if (count > 0) {
+                countdown.innerHTML = count;
+            } else {
+                clearInterval(timer);
+
+                countdown.innerHTML = "0";
+
+                // cacher le countdown
+                setTimeout(() => {
+                    countdown.style.display = 'none';
+                    typing.style.opacity = '1';
+                    // 👉 LANCER LE TYPING ICI (APRÈS COUNTDOWN)
+                    typeText();
+
+                }, 500);
+            }
+        }, 1000);
+
+    }, 1500);
+});
+
+function createHearts(){
+    const hearts = document.querySelector('.hearts');
+
+    setInterval(()=>{
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤';
+        heart.style.left = Math.random()*100 + 'vw';
+        heart.style.fontSize = Math.random()*20 + 15 + 'px';
+        heart.style.animationDuration = Math.random()*5 + 5 + 's';
+
+        hearts.appendChild(heart);
+
+        setTimeout(()=>{
+            heart.remove();
+        },10000);
+
+    },300);
+}
+
+startBtn.addEventListener('click',()=>{
+    introScreen.style.opacity='0';
+
+    setTimeout(()=>{
+        introScreen.style.display='none';
+        mainContent.style.display='block';
+    },1000);
+});
+
+createHearts();
+</script>
+
+</body>
+</html>
